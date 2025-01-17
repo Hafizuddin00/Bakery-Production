@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2025 at 09:18 AM
+-- Generation Time: Jan 17, 2025 at 01:22 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -65,7 +65,9 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`order_id`, `id`, `product_id`, `recipe_name`, `qty_product`, `staff_id`, `created_at`, `starteddate`, `enddate`, `hours`, `status`, `quality_test`, `comment`, `ingredients_data`) VALUES
 (11, 228, 101, 'cake coklat', 10, '100004', '2025-01-14 01:03:22', '2025-01-14', '2025-01-15', 1, 'Finished', '', '', '[\"flour - 20 kg\",\"123 - 12 kg\",\"DROP TABLE_RECIPE - 34 kg\"]'),
-(12, 230, 103, 'Almond Butter Croissant', 10, '100003', '2025-01-17 07:28:35', '2025-01-17', '2025-01-18', 2, 'Finished', 'Good', 'All 10 croissant bake with good condition', '[\"homemade croissants - 20 kg\",\"Almond butter - 20 kg\",\"Sliced almonds - 10 kg\",\"Powdered sugar - 40 kg\"]');
+(12, 230, 103, 'Almond Butter Croissant', 10, '100003', '2025-01-17 07:28:35', '2025-01-17', '2025-01-18', 2, 'Finished', 'Good', 'All 10 croissant bake with good condition', '[\"homemade croissants - 20 kg\",\"Almond butter - 20 kg\",\"Sliced almonds - 10 kg\",\"Powdered sugar - 40 kg\"]'),
+(14, 231, 107, 'BBQ Chicken Pizza', 31, '100003', '2025-01-17 09:09:34', '2025-01-17', '2025-01-18', 3, 'Unfinished', '', '', '[\"pizza dough - 31 unit\",\"bbq sauce - 6.2 kg\",\"cooked chicken - 3.1 kg\",\"mozarella - 6.2 kg\"]'),
+(14, 232, 103, 'Almond Butter Croissant', 12, '100002', '2025-01-17 10:22:39', '2025-01-17', '2025-01-17', 2, 'Unfinished', '', '', '[\"homemade croissants - 24 kg\",\"Almond butter - 24 kg\",\"Sliced almonds - 12 kg\",\"Powdered sugar - 48 kg\"]');
 
 -- --------------------------------------------------------
 
@@ -118,18 +120,18 @@ INSERT INTO `equipment_details` (`spec_id`, `eq_id`, `eq_description`, `qty`, `e
 ('C108', 'E102', 'Decorating Nozzles and Bags', 6, 0, 6),
 ('C109', 'E103', 'Cake Tins (Round, Square, Rectangular)', 10, 0, 10),
 ('C110', 'E103', 'Springform Pans', 10, 0, 10),
-('CR105', 'E102', 'Rolling Pins', 5, 0, 5),
-('CR106', 'E102', 'Bench Scrapers', 5, 0, 5),
-('CR107', 'E102', 'Dough Cutters', 3, 0, 3),
-('CR108', 'E103', 'Baking Sheets', 20, 0, 20),
+('CR105', 'E102', 'Rolling Pins', 5, 1, 4),
+('CR106', 'E102', 'Bench Scrapers', 5, 1, 4),
+('CR107', 'E102', 'Dough Cutters', 3, 1, 2),
+('CR108', 'E103', 'Baking Sheets', 20, 1, 19),
 ('M105', 'E103', 'Muffin Trays', 50, 0, 50),
 ('M106', 'E103', 'Silicone Muffin Cups', 300, 0, 300),
 ('M107', 'E103', 'Cooling Racks', 5, 0, 5),
-('P103', 'E102', 'Pizza Peel', 2, 0, 2),
-('P104', 'E102', 'Pizza Cutter', 3, 0, 3),
-('P105', 'E102', 'Dough Dockers', 3, 0, 3),
-('P106', 'E103', 'Pizza Pans', 5, 0, 5),
-('P107', 'E103', 'Pizza Stones', 5, 0, 5),
+('P103', 'E102', 'Pizza Peel', 2, 1, 1),
+('P104', 'E102', 'Pizza Cutter', 3, 1, 2),
+('P105', 'E102', 'Dough Dockers', 3, 1, 2),
+('P106', 'E103', 'Pizza Pans', 5, 1, 4),
+('P107', 'E103', 'Pizza Stones', 5, 1, 4),
 ('PA105', 'E102', 'Pasta Rolling Pin', 2, 0, 2),
 ('PA106', 'E102', 'Ravioli Cutter', 2, 0, 2),
 ('PA107', 'E101', 'Pasta Extruder Machine', 1, 0, 1),
@@ -173,6 +175,21 @@ CREATE TABLE `equipment_record` (
   `spec_id` varchar(11) NOT NULL,
   `eq_used` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `equipment_record`
+--
+
+INSERT INTO `equipment_record` (`id`, `spec_id`, `eq_used`) VALUES
+(231, 'P103', 1),
+(231, 'P104', 1),
+(231, 'P105', 1),
+(231, 'P106', 1),
+(231, 'P107', 1),
+(232, 'CR105', 1),
+(232, 'CR106', 1),
+(232, 'CR107', 1),
+(232, 'CR108', 1);
 
 -- --------------------------------------------------------
 
@@ -293,9 +310,8 @@ CREATE TABLE `order_customer` (
 
 INSERT INTO `order_customer` (`order_id`, `recipe_name`, `customer_name`, `quantity`, `order_date`, `status`) VALUES
 (11, 'Strawberry Cake', 'Pn. Halijah', 5, '2025-01-15', 'Finished'),
-(12, 'Chocolate Croissant', 'En. Amin', 10, '2025-01-17', 'Finished'),
+(12, 'Almond Butter Croissant', 'En. Amin', 10, '2025-01-17', 'Finished'),
 (13, 'Whole Wheat Bread', 'James Wong', 3, '2025-01-20', 'Ordered'),
-(14, 'Margherita Pizza', 'En. Bajuri', 8, '2025-01-22', 'Ordered'),
 (15, 'Red Velvet Cake', 'En. Windara', 7, '2025-01-25', 'Ordered');
 
 -- --------------------------------------------------------
@@ -470,10 +486,10 @@ CREATE TABLE `staff_information` (
 --
 
 INSERT INTO `staff_information` (`staff_id`, `staff_name`, `user_id`) VALUES
-(100001, 'Baker 1', 94),
+(100001, 'Baker 1', 99),
 (100002, 'Baker 2', 80),
 (100003, 'Baker 3', 91),
-(100004, 'Baker 4', 95),
+(100004, 'Baker 4', 100),
 (100005, 'Supervisor', 81);
 
 -- --------------------------------------------------------
@@ -540,10 +556,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fullname`, `contact`, `address`, `email`, `password`, `type`, `date_created`, `staff_id`) VALUES
-(1, 'Administrator', '+123456789', 'Sample address', 'admin@admin.com', '21232f297a57a5a743894a0e4a801fc3', 1, '2020-11-10 08:43:06', 0),
-(80, 'Halim', '', '', 'baker1@gmail.com', '$2y$10$470tdwuxusQDuo1AmsLW1.ocetuvRtroanzMuKPylfgw01ZI0/RMu', 3, '2024-12-29 04:52:22', 100002),
-(81, 'Daniel Haikal', '', '', 'super@gmail.com', '$2y$10$RkZjDGNXOQuz0rAq0LTMduQR.ldvHTJ4iQQqUR9qbZVAhi3qP8Eq2', 2, '2024-12-29 04:53:08', 100005),
-(91, 'hafizuddin', '', '', 'baker4@gmail.com', '$2y$10$m3XmJTo8aFsU30cWzB5NdetVuu139nijNmabx9d50m79SqO3xErOe', 3, '2025-01-13 16:31:38', 100003);
+(1, 'Administrator', '+123456789', 'Sample address', 'admin@admin.com', '$2y$10$m3XmJTo8aFsU30cWzB5NdetVuu139nijNmabx9d50m79SqO3xErOe', 1, '2020-11-10 08:43:06', 0),
+(80, 'Halim', '', '', 'baker1@gmail.com', '$2y$10$x3FATppfos0Y.afaLmW0yely2fP0F2e14QdpiHMQ3/EzMB9rGavea', 3, '2024-12-29 04:52:22', 100002),
+(81, 'Daniel Haikal', '', '', 'super@gmail.com', '$2y$10$m3XmJTo8aFsU30cWzB5NdetVuu139nijNmabx9d50m79SqO3xErOe', 2, '2024-12-29 04:53:08', 100005),
+(91, 'hafizuddin', '', '', 'baker4@gmail.com', '$2y$10$x3FATppfos0Y.afaLmW0yely2fP0F2e14QdpiHMQ3/EzMB9rGavea', 3, '2025-01-13 16:31:38', 100003),
+(99, 'najib', '', '', 'baker2@gmail.com', '$2y$10$Dw04soUYuCNnQ715zOQYKOer8OB3LmUm5LAz8.q0rT51xQa6Xmlzi', 3, '2025-01-17 20:17:56', 100001),
+(100, 'amin', '', '', 'baker3@gmail.com', '$2y$10$O5LtIeePVfQLeO/gAd6u8OoCqCG7kFUHn9Pekra5SE9vMdcDFHS7O', 3, '2025-01-17 20:18:18', 100004);
 
 --
 -- Indexes for dumped tables
@@ -655,7 +673,7 @@ ALTER TABLE `answers`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=233;
 
 --
 -- AUTO_INCREMENT for table `contact`
@@ -691,7 +709,7 @@ ALTER TABLE `survey_set`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- Constraints for dumped tables

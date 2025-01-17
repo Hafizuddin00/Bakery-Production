@@ -49,7 +49,8 @@
     <section class="content">
       <div class="container-fluid">
          <?php 
-          include $allowed_pages[$page];
+            $page = isset($_GET['page']) ? $_GET['page'] : 'home';
+            include $page.'.php';
           ?>
       </div><!--/. container-fluid -->
     </section>
