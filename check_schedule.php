@@ -44,9 +44,12 @@ if (isset($_GET['staff_id'], $_GET['start_date'], $_GET['end_date'])) {
         // Send JSON response
         echo json_encode(['available' => $available]);
     } catch (Exception $e) {
-        // Handle errors gracefully
+        // Log the detailed error message for internal debugging
+        error_log("Staff availability check error: " . $e->getMessage());
+        
+        // Handle errors gracefully with generic message
         http_response_code(500); // Internal Server Error
-        echo json_encode(['error' => 'An error occurred while checking availability.', 'details' => $e->getMessage()]);
+        echo json_encode(['error' => 'An error occurred while checking availability.']);
     }
 } else {
     // Invalid request response

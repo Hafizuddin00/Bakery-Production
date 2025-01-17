@@ -1,10 +1,14 @@
 <?php include 'db_connect.php' ?>
 <?php
 if(isset($_GET['id'])){
-	$qry = $conn->query("SELECT * FROM questions where id = ".$_GET['id'])->fetch_array();
-foreach($qry as $k => $v){
-	$$k = $v;
-}
+	$stmt = $conn->prepare("SELECT * FROM questions WHERE id = ?");
+	$stmt->bind_param("i", $_GET['id']);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$qry = $result->fetch_array();
+	foreach($qry as $k => $v){
+		$$k = $v;
+	}
 }
 ?>
 <div class="container-fluid">
@@ -13,7 +17,7 @@ foreach($qry as $k => $v){
 			<div class="row">
 				<div class="col-sm-6 border-right">
 						<input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
-						<input type="hidden" name="sid" value="<?php echo isset($_GET['sid']) ? $_GET['sid'] : '' ?>">
+						<input type="hidden" name="sid" value="<?php echo htmlspecialchars(isset($_GET['sid']) ? $_GET['sid'] : '', ENT_QUOTES, 'UTF-8'); ?>">
 						<div class="form-group">
 							<label for="" class="control-label">Question</label>
 							<textarea name="question" id="" cols="30" rows="4" class="form-control"><?php echo isset($question)? $question: '' ?></textarea>

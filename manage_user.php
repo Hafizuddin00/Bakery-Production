@@ -3,10 +3,16 @@ include('db_connect.php');
 session_start();
 $utype = array('',"Admin","Researcher","Respondent");
 if(isset($_GET['id'])){
-$user = $conn->query("SELECT * FROM users {$utype[$_SESSION['login_type']]} where id =".$_GET['id']);
-foreach($user->fetch_array() as $k =>$v){
-	$meta[$k] = $v;
-}
+	$stmt = $conn->prepare("SELECT * FROM users WHERE id = ? AND type = ?");
+	$login_type = $_SESSION['login_type'];
+	$stmt->bind_param("ii", $_GET['id'], $login_type);
+	$stmt->execute();
+	$user = $stmt->get_result();
+	if($row = $user->fetch_array()) {
+		foreach($row as $k => $v){
+			$meta[$k] = $v;
+		}
+	}
 }
 ?>
 <div class="container-fluid">

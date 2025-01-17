@@ -16,7 +16,7 @@ if ($id) {
     <div class="card">
         <div class="card-body">
             <form action="" id="manage_categories" method="post">
-                <input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
+                <input type="hidden" name="id" value="<?php echo htmlspecialchars(isset($id) ? $id : '', ENT_QUOTES, 'UTF-8'); ?>">
                 <div class="row">
                     <div class="col-md-6 border-right">                        
                         <b class="text-muted">Production Information</b>

@@ -168,12 +168,16 @@ if ($_GET['action'] == 'delete_product') {
     $product_id = $_POST['product_id'];
 
     // Perform the deletion
-    $delete = $conn->query("DELETE FROM typeproduct WHERE product_id = '$product_id'");
-    if ($delete) {
+    $stmt = $conn->prepare("DELETE FROM typeproduct WHERE product_id = ?");
+    $stmt->bind_param("i", $product_id);
+    
+    if ($stmt->execute()) {
         echo 1; // Success
     } else {
         echo 0; // Failed
     }
+    
+    $stmt->close();
     exit();
 }
 // Corrected PHP code for saving ingredients and equipment

@@ -26,10 +26,13 @@
                             $staff_id = $row['staff_id'];
                             $unavailable_dates = [];
 
-                            // Fetch schedules for the staff member
-                            $schedule_qry = $conn->query("SELECT starteddate, enddate, id, status FROM categories WHERE staff_id = '$staff_id'");
-                            if ($schedule_qry) {
-                                while ($sched = $schedule_qry->fetch_assoc()) {
+                            // Fetch schedules for the staff member using prepared statement
+                            $schedule_qry = $conn->prepare("SELECT starteddate, enddate, id, status FROM categories WHERE staff_id = ?");
+                            $schedule_qry->bind_param("s", $staff_id);
+                            $schedule_qry->execute();
+                            $result = $schedule_qry->get_result();
+                            if ($result) {
+                                while ($sched = $result->fetch_assoc()) {
                                     // Only include this date range if the status is not 'Finished'
                                     if ($sched['status'] !== 'Finished') {
                                         $start_date = new DateTime($sched['starteddate']);

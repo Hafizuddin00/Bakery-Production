@@ -26,8 +26,10 @@ try {
     $stmt_select->close();
 
 } catch (mysqli_sql_exception $e) {
-    // Catch MySQLi exceptions and display the error message
-    die("Database Error: " . $e->getMessage());
+    // Log the error securely
+    error_log("Database error in order_message.php: " . $e->getMessage());
+    // Show generic error message to users
+    die("An error occurred while processing your request. Please contact support.");
 }
 
 ?>
@@ -81,7 +83,10 @@ try {
                     <?php endwhile; 
                         $stmt_list->close();
                     } catch (mysqli_sql_exception $e) {
-                        die("Error fetching data: " . $e->getMessage());
+                        // Log the error securely (make sure error_log is configured properly in php.ini)
+                        error_log("Database error in order_message.php: " . $e->getMessage());
+                        // Show generic error message to users
+                        die("An error occurred while fetching data. Please contact support.");
                     }
                     ?>
                 </tbody>

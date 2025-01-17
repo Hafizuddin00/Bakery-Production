@@ -135,7 +135,10 @@ if (isset($_POST['submit'])) {
             }
         }
 
-        // Send registration email
+        // Sanitize fullname for email content
+        $emailFullname = htmlspecialchars($fullname, ENT_QUOTES, 'UTF-8');
+        $emailType = ($type == 2) ? 'Supervisor' : 'Baker';
+        
         $mail = new PHPMailer(true);
         $mail->isSMTP();
         $mail->SMTPAuth = true;
@@ -145,18 +148,21 @@ if (isset($_POST['submit'])) {
         $mail->Username = "eazysurvey123@gmail.com";
         $mail->Password = "cqlprqrgtttssphq";
         $mail->setFrom($email, "EazySurvey | Survey Management System");
-        $mail->addAddress($_POST["email"], $_POST['fullname']);
+        $mail->addAddress($_POST["email"], $emailFullname);
         $mail->Subject = "Welcome onboard with us, EazySurvey";
-        $mail->Body = "Dear $fullname,
-
-We would like to thank you for choosing us as your choice to manage your survey with us.
-Your role (1-Supervisor, 2-Baker): $type.
-Your Username: $email, 
-Your Password: $password.
-
-Your Sincerely,
-EazySurvey Team
-easysurvey123@gmail.com";
+        $mail->Body = sprintf(
+            "Dear %s,\n\n" .
+            "We would like to thank you for choosing us as your choice to manage your survey with us.\n" .
+            "Your role: %s\n" .
+            "Your Username: %s\n" .
+            "Your Password: [REDACTED for security]\n\n" .
+            "Your Sincerely,\n" .
+            "EazySurvey Team\n" .
+            "easysurvey123@gmail.com",
+            $emailFullname,
+            $emailType,
+            htmlspecialchars($email, ENT_QUOTES, 'UTF-8')
+        );
 
         $mail->send();
 

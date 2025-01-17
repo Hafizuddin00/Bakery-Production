@@ -20,6 +20,9 @@ $query->execute();
  if ($LastInsertId>0) {
   $mail = new PHPMailer(true);
   
+  // Sanitize user input
+  $sanitized_name = htmlspecialchars(strip_tags($name), ENT_QUOTES, 'UTF-8');
+  
   // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
   
   $mail->isSMTP();
@@ -36,7 +39,7 @@ $query->execute();
   $mail->addAddress($_POST["email"], $_POST['name']);
   
   $mail->Subject = "Thank You For Contacting Us";
-  $mail->Body = "Dear $name,
+  $mail->Body = "Dear " . $sanitized_name . ",
 
 Hello, Thanks For Contacting EazySurvey. We Have Received Your Message And Will Get Back To You As Soon As Possible.
 

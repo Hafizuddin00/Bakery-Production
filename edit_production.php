@@ -4,7 +4,11 @@ include 'db_connect.php';
 
 // Fetch data based on the ID
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $qry = $conn->query("SELECT * FROM categories WHERE id = " . $_GET['id']);
+    $stmt = $conn->prepare("SELECT * FROM categories WHERE id = ?");
+    $stmt->bind_param("i", $_GET['id']);
+    $stmt->execute();
+    $qry = $stmt->get_result();
+    
     if ($qry && $qry->num_rows > 0) {
         $result = $qry->fetch_array();
         foreach ($result as $k => $v) {
